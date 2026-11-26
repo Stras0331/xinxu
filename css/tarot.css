@@ -1,0 +1,187 @@
+/* ==========================================================================
+   塔罗页 · 暗色神秘风
+   --------------------------------------------------------------------------
+   与主站完全隔离：只作用于 body.theme-tarot（由 app.js 在路由切到塔罗页时加上），
+   切换页面即自动还原，不会污染主站的暖色主题。
+   ========================================================================== */
+
+:root {
+  --gold: #d9b25a;
+  --gold-soft: rgba(217, 178, 90, .16);
+  --deep: #100c1b;
+}
+
+/* ---------- 主题变量覆盖 ---------- */
+body.theme-tarot {
+  --bg: #100c1b;
+  --bg-grad-1: #1b1431;
+  --bg-grad-2: #0d0917;
+  --card: #1a1330;
+  --card-soft: #221a3b;
+  --line: #382a55;
+  --ink: #f2e8d6;
+  --ink-soft: #c2b6d6;
+  --ink-faint: #8c80a6;
+  --accent: var(--gold);
+  --accent-deep: #e8c877;
+  --accent-soft: var(--gold-soft);
+  --sage-soft: var(--gold-soft);
+  --shadow: 0 14px 44px rgba(0, 0, 0, .5);
+  --shadow-sm: 0 8px 22px rgba(0, 0, 0, .35);
+
+  background-image:
+    radial-gradient(1000px 520px at 50% -10%, #241a3f, transparent 62%),
+    radial-gradient(2px 2px at 12% 22%, rgba(255, 255, 255, .5), transparent 60%),
+    radial-gradient(2px 2px at 78% 14%, rgba(255, 255, 255, .38), transparent 60%),
+    radial-gradient(1.6px 1.6px at 32% 62%, rgba(255, 255, 255, .3), transparent 60%),
+    radial-gradient(1.6px 1.6px at 88% 70%, rgba(255, 255, 255, .34), transparent 60%),
+    radial-gradient(1.4px 1.4px at 58% 88%, rgba(255, 255, 255, .26), transparent 60%),
+    radial-gradient(1.4px 1.4px at 8% 84%, rgba(255, 255, 255, .22), transparent 60%);
+}
+
+body.theme-tarot .topbar {
+  background: color-mix(in srgb, #100c1b 80%, transparent);
+  border-bottom-color: rgba(217, 178, 90, .18);
+}
+body.theme-tarot .brand { color: var(--gold); }
+body.theme-tarot .brand span { color: rgba(217, 178, 90, .55); }
+body.theme-tarot .topnav a { color: var(--ink-soft); }
+body.theme-tarot .topnav a:hover { background: var(--gold-soft); color: var(--gold); }
+body.theme-tarot .topnav a[aria-current="page"] { background: var(--gold); color: #16101f; }
+body.theme-tarot .foot { border-top-color: rgba(217, 178, 90, .16); }
+
+/* ---------- 版面 ---------- */
+.tarot-view { max-width: 620px; margin: 0 auto; }
+
+.tarot-head { text-align: center; margin-bottom: 26px; }
+.tarot-head h1 { color: var(--ink); }
+.tarot-head .eyebrow { color: var(--gold); letter-spacing: .3em; }
+.tarot-lede {
+  color: var(--ink-soft); font-size: .96rem;
+  max-width: 26em; margin: 0 auto;
+}
+
+/* ---------- 牌 ---------- */
+.tarot-stage { display: grid; justify-items: center; gap: 14px; perspective: 1400px; }
+
+.tcard {
+  position: relative;
+  width: min(240px, 62vw);
+  aspect-ratio: 240 / 400;
+  cursor: pointer;
+  transition: transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+.tcard:hover { transform: translateY(-4px); }
+
+.tcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .8s cubic-bezier(.3, .9, .2, 1);
+}
+.tcard.is-flipped .tcard-inner { transform: rotateY(180deg); }
+
+.tcard-face {
+  position: absolute; inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.tcard-back {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  background:
+    radial-gradient(circle at 50% 40%, #2a1f49 0%, #161029 62%, #0f0a1a 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 1px rgba(217, 178, 90, .22) inset,
+              0 0 42px rgba(217, 178, 90, .2);
+}
+.tcard-back::before {
+  content: "";
+  position: absolute; inset: 12px;
+  border: 1px solid rgba(217, 178, 90, .38);
+  border-radius: 11px;
+}
+.tcard-sigil { font-size: 2.6rem; color: var(--gold); opacity: .9; }
+.tcard-hint { font-size: .72rem; letter-spacing: .18em; color: rgba(217, 178, 90, .62); }
+
+.tcard-front {
+  transform: rotateY(180deg);
+  border-radius: 18px;
+  background: #150f26;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, .55);
+}
+.tcard-front .tcard-svg,
+.tcard-front .tcard-img { display: block; width: 100%; height: 100%; }
+.tcard-front .tcard-svg { color: var(--gold); transition: transform .5s ease; }
+.tcard-front.is-rev .tcard-svg,
+.tcard-front.is-rev .tcard-img { transform: rotate(180deg); }
+.tcard-front .tcard-img { object-fit: cover; }
+
+.tcard-name {
+  font-family: var(--font-hand);
+  font-size: 1.06rem;
+  letter-spacing: .12em;
+  color: var(--gold);
+  min-height: 1.6em;
+  margin: 4px 0 0;
+}
+
+/* ---------- 按钮 ---------- */
+.tarot-actions { display: flex; justify-content: center; gap: 12px; margin: 22px 0 4px; }
+
+.tbtn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+.tbtn:hover { border-color: var(--gold); color: var(--gold); box-shadow: 0 6px 20px rgba(217, 178, 90, .14); }
+.tbtn-gold {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #17111f;
+  font-weight: 700;
+  padding: 14px 34px;
+  box-shadow: 0 10px 26px rgba(217, 178, 90, .25);
+}
+.tbtn-gold:hover { background: #e8c877; border-color: #e8c877; color: #17111f; }
+
+/* ---------- 牌义 ---------- */
+.tarot-read {
+  margin-top: 26px;
+  padding: clamp(22px, 4vw, 30px);
+  background: linear-gradient(180deg, rgba(34, 26, 58, .92), rgba(23, 17, 40, .92));
+  border: 1px solid rgba(217, 178, 90, .26);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .4);
+  animation: rise .5s ease both;
+}
+.tarot-read h2 { color: var(--gold); font-size: 1.3rem; margin-bottom: .2em; }
+.tr-pos { font-size: .78rem; letter-spacing: .16em; color: var(--ink-faint); margin-bottom: 1.1em; }
+.tr-key {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: .95rem;
+  color: var(--gold);
+  border: 1px solid rgba(217, 178, 90, .4);
+  border-radius: 999px;
+  padding: 4px 16px;
+  margin-bottom: 1em;
+}
+.tr-text { font-size: 1.02rem; line-height: 1.95; color: var(--ink); margin: 0; }
+
+.tarot-foot {
+  margin-top: 26px;
+  text-align: center;
+  font-size: .78rem;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 420px) {
+  .tcard-name { font-size: .98rem; }
+  .tarot-actions { flex-direction: column; align-items: stretch; }
+}

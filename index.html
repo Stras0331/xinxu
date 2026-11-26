@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf5ec">
+<title>心绪 · 情绪自我觉察</title>
+<meta name="description" content="面向大学生的小型情绪自我觉察工具：5 题生活满意度自评 + 15 题基本心理需要自评，附塔罗抽牌与本地树洞。仅供参考，不能替代专业诊断。">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/tarot.css">
+</head>
+<body>
+
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header class="topbar">
+  <a class="brand" href="#/home">心绪<span>EMOTION CHECK-IN</span></a>
+  <nav class="topnav" aria-label="主导航">
+    <a href="#/swls" data-nav="test">测试</a>
+    <a href="#/tarot" data-nav="tarot">塔罗</a>
+    <a href="#/den" data-nav="den">树洞</a>
+  </nav>
+</header>
+
+<main id="main" class="app" tabindex="-1">
+
+  <!-- ============ 首页 ============ -->
+  <section class="view" id="v-home" data-view="home">
+    <div class="hero">
+      <h1>先看见，再照顾自己</h1>
+      <p class="lede">一个 5 分钟的小测试，帮你把「最近有点不对劲」说清楚一点。</p>
+    </div>
+
+    <a class="entry-main" href="#/swls">
+      <h2>情绪自我觉察</h2>
+      <p>先花 1 分钟给生活整体满意度打个分，再用 15 道题看看，是哪一部分在支撑你、哪一部分在消耗你。</p>
+      <div class="entry-meta">
+        <span class="chip">5 + 15 题</span>
+        <span class="chip">约 5 分钟</span>
+        <span class="chip">本地评分 · 不上传</span>
+      </div>
+      <span class="btn btn-primary btn-lg">开始测试 →</span>
+    </a>
+
+    <div class="entry-grid">
+      <a class="entry-sub" href="#/tarot">
+        <span class="icon" aria-hidden="true">✦</span>
+        <h3>抽一张塔罗</h3>
+        <p>不带预测，只借一张牌的角度，重新看看此刻的自己。</p>
+      </a>
+      <a class="entry-sub" href="#/den">
+        <span class="icon" aria-hidden="true">✎</span>
+        <h3>写进树洞</h3>
+        <p>把说不出口的话写下来，只存在你自己的设备里。</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ SWLS 测试 ============ -->
+  <section class="view" id="v-swls" data-view="swls" hidden>
+    <div class="test-head">
+      <p class="step">第一部分 · 生活满意度（5 题）</p>
+      <h1>这几句话，和你的生活像不像？</h1>
+      <p class="muted" style="margin-top:.5em">以下 5 项陈述描述的是你对整体生活的评价。请根据你目前的生活状况，选择最符合的同意程度：1 强烈反对 · 2 反对 · 3 有点反对 · 4 中立 · 5 有点同意 · 6 同意 · 7 强烈同意。</p>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" id="swls-progress">
+        <i id="swls-bar"></i>
+      </div>
+      <p class="muted" id="swls-count">已答 0 / 5</p>
+    </div>
+    <ol class="qlist" id="swls-list"></ol>
+    <div class="test-foot">
+      <button class="btn btn-primary btn-lg" id="swls-submit" disabled>看看结果</button>
+    </div>
+  </section>
+
+  <!-- ============ SWLS 结果（横向滑动，含 BNSG-S 入口） ============ -->
+  <section class="view" id="v-swls-result" data-view="swls-result" hidden>
+    <div class="slider-wrap">
+      <div class="slider" id="swls-slider" tabindex="0" role="group" aria-label="生活满意度结果，左右滑动查看">
+
+        <div class="slide">
+          <div class="card">
+            <p class="eyebrow">第 1 页 / 共 3 页</p>
+            <h2>你对生活的整体评价</h2>
+            <div class="score-ring">
+              <span class="num" id="sr-score">—</span>
+              <span class="unit">总分 5 – 35</span>
+            </div>
+            <p style="text-align:center"><span class="band" id="sr-band">—</span></p>
+            <p class="lede" id="sr-explain" style="margin-top:1.2em"></p>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="card">
+            <p class="eyebrow">第 2 页 / 共 3 页</p>
+            <h2>但这只是一个总分</h2>
+            <p class="lede" id="sr-lead" style="font-family:var(--font-hand);font-size:1.14rem;line-height:1.9"></p>
+            <p class="muted">下面这一步，是把「整体」拆开来看：哪一部分在支撑你，哪一部分在消耗你。</p>
+          </div>
+        </div>
+
+        <div class="slide">
+          <div class="card">
+            <p class="eyebrow">第 3 页 / 共 3 页</p>
+            <h2>接下来是主测试</h2>
+            <p class="lede">15 道题，大约 3 分钟。关于自主感与归属感——它们决定了你每天是「被推着走」还是「自己在走」。</p>
+            <div class="btn-row" style="margin-top:1.4em">
+              <a class="btn btn-primary btn-lg" href="#/bnsg">进入主测试 →</a>
+              <a class="btn btn-ghost" href="#/home">先回首页</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="slider-nav">
+      <button class="slide-arrow" id="sr-prev" aria-label="上一页">‹</button>
+      <div class="dots" id="sr-dots" role="tablist" aria-label="结果页分页"></div>
+      <button class="slide-arrow" id="sr-next" aria-label="下一页">›</button>
+    </div>
+    <p class="swipe-hint">左右滑动 / 用方向键翻页</p>
+  </section>
+
+  <!-- ============ BNSG-S 测试 ============ -->
+  <section class="view" id="v-bnsg" data-view="bnsg" hidden>
+    <div class="test-head">
+      <p class="step">第二部分 · 基本心理需要（15 题）</p>
+      <h1>最近这段时间，下面这些说法你有多同意？</h1>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="bnsg-progress">
+        <i id="bnsg-bar"></i>
+      </div>
+      <p class="muted" id="bnsg-count">已答 0 / 15</p>
+    </div>
+    <ol class="qlist" id="bnsg-list"></ol>
+    <div class="test-foot">
+      <button class="btn btn-primary btn-lg" id="bnsg-submit" disabled>生成我的结果</button>
+    </div>
+  </section>
+
+  <!-- ============ BNSG-S 结果 ============ -->
+  <section class="view" id="v-bnsg-result" data-view="bnsg-result" hidden>
+    <div class="test-head">
+      <p class="step">你的结果</p>
+      <h1>最近最该被照顾的那部分</h1>
+      <p class="lede" id="br-summary"></p>
+    </div>
+
+    <div id="br-focus"></div>
+
+    <details class="fold" id="br-rest-wrap">
+      <summary>看看另外两个部分</summary>
+      <div class="fold-body" id="br-rest"></div>
+    </details>
+
+    <div class="card" style="margin-top:20px">
+      <h3>接下来可以做什么</h3>
+      <p class="lede" id="br-reco"></p>
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="#/tarot">抽一张塔罗看看</a>
+        <a class="btn btn-ghost" href="#/den">去树洞写下来</a>
+        <button class="btn btn-ghost" id="br-restart">重新测一次</button>
+      </div>
+    </div>
+
+    <p class="notice" id="br-notice"></p>
+  </section>
+
+  <!-- ============ 塔罗（暗色，独立主题） ============ -->
+  <section class="view tarot-view" id="v-tarot" data-view="tarot" hidden>
+    <div class="tarot-head">
+      <p class="eyebrow">大阿卡纳 · 22 张</p>
+      <h1>抽一张牌，读读此刻</h1>
+      <p class="tarot-lede">它不是预测，只是一个重新看自己的角度。牌义取自韦特体系的固定含义，抽到哪张不由你挑，怎么读，由你决定。</p>
+    </div>
+
+    <div class="tarot-stage">
+      <div class="tcard" id="tarot-card" aria-live="polite">
+        <div class="tcard-inner">
+          <div class="tcard-face tcard-back" aria-hidden="true">
+            <span class="tcard-sigil">✧</span>
+            <span class="tcard-hint">点击下方按钮抽牌</span>
+          </div>
+          <div class="tcard-face tcard-front" id="tarot-front"></div>
+        </div>
+      </div>
+      <p class="tcard-name" id="tarot-name" aria-live="polite">&nbsp;</p>
+    </div>
+
+    <div class="tarot-actions">
+      <button class="btn tbtn tbtn-gold" id="tarot-draw">抽一张牌</button>
+      <button class="btn tbtn" id="tarot-again" hidden>再抽一张</button>
+    </div>
+
+    <article class="tarot-read" id="tarot-read" hidden>
+      <h2 id="tr-title"></h2>
+      <p class="tr-pos" id="tr-pos"></p>
+      <p class="tr-key" id="tr-key"></p>
+      <p class="tr-text" id="tr-text"></p>
+    </article>
+
+    <p class="tarot-foot">牌面：Rider-Waite-Smith Tarot，1909 年原版扫描，已进入公有领域。塔罗为娱乐向的情绪陪伴，不构成任何预测、建议或诊断。</p>
+  </section>
+
+  <!-- ============ 树洞 ============ -->
+  <section class="view" id="v-den" data-view="den" hidden>
+    <div class="test-head">
+      <p class="step">树洞 · 只存在你的浏览器里</p>
+      <h1>写下想说的话</h1>
+      <p class="lede">写下来的东西只保存在这台设备的 localStorage 里，不会上传、不会被任何人看到。换设备或清理浏览器数据就会消失。</p>
+    </div>
+
+    <div class="card den-form">
+      <label for="den-text" class="eyebrow">写下此刻</label>
+      <textarea id="den-text" maxlength="500" placeholder="今天有件事一直卡在心里……"></textarea>
+      <div class="den-tools">
+        <span class="muted" id="den-count">0 / 500</span>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="den-clear" type="button">清空</button>
+          <button class="btn btn-primary" id="den-save" type="button">存进树洞</button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="notes" id="den-notes"></ul>
+    <p class="muted" id="den-empty" hidden>树洞里还没有纸条。</p>
+
+    <div class="card" style="margin-top:20px">
+      <h3>捞一张别人的纸条</h3>
+      <p class="muted" style="margin-bottom:1em">池底的纸条是平时收下来的一些温暖留言，每天可以捞 3 次。</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="den-draw" type="button">捞一张</button>
+        <span class="muted" id="den-left">今天还能捞 3 次</span>
+      </div>
+      <div class="bottle" id="den-bottle" hidden></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p><strong>心绪</strong> · 杭州电子科技大学 AIGC 应用创新大赛参赛作品（赛题一）</p>
+  <p>本工具为课程实践原型，结果仅供参考，<b>不能替代专业心理评估与诊断</b>。如持续感到痛苦，请寻求学校心理健康教育与咨询中心或专业机构的帮助。</p>
+</footer>
+
+<noscript>
+  <p style="padding:24px;text-align:center">本站的前端逻辑由 JavaScript 实现，请开启 JavaScript 后重新打开。</p>
+</noscript>
+
+<!-- 数据层：量表题目与计分配置、文案、塔罗牌义（替换内容只改这几个文件） -->
+<script src="js/data/scales.js"></script>
+<script src="js/data/copy.js"></script>
+<script src="js/data/tarot.js"></script>
+<!-- 逻辑层 -->
+<script src="js/tarot-art.js"></script>
+<script src="js/app.js"></script>
+<script src="js/tarot.js"></script>
+<script src="js/den.js"></script>
+</body>
+</html>
